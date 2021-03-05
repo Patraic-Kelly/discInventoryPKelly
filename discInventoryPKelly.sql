@@ -1,15 +1,15 @@
 /*----------discInventoryPK.sql------------------\
-|Author:Patraic Kelly       					  \
-|Creation Date:3/3/21		    				  |
-|Modified Date:3/5/21							  |
-|LOG:											  |
-|3/3/21- Wrote database drop&creation			  |
-|		 wrote table creators					  |
-|		 for Borrower, Rental, Artist, ArtistType.| 
-|3/5/21- Added login and user creation			  |
-|		 Wrote, and added columns for:			  |
-|		 Genre, MediaType, DiscStatus, Disc,      |
-|		 & DiscHasArtist Tables					  /
+|Author:Patraic Kelly
+|Creation Date:3/3/21
+|Modified Date:3/5/21
+|LOG:
+|3/3/21- Wrote database drop&creation
+|		 wrote table creators
+|		 for Borrower, Rental, Artist, ArtistType.
+|3/5/21- Added login and user creation
+|		 Wrote, and added columns for:
+|		 Genre, MediaType, DiscStatus, Disc,
+|		 & DiscHasArtist Tables
 \-----------------------------------------------*/
 
 USE master;
