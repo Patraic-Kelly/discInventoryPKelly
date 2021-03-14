@@ -216,15 +216,15 @@ VALUES
 ('Urist', 'McUrist', '123-123-1234', NULL),
 ('Kipling', 'Poulin', '123-123-1234', NULL),
 ('Caroline', 'Merckx', '123-123-1234', NULL),
-('Tadala', 'Szekeres', '123-123-1234', NULL),	 --6 
+('Tadala', 'Szekeres', '123-123-1234', NULL),	
 ('Cyrillus', 'Stroud', '123-123-1234', 'StroudDynamics@something.net'),
 ('Lea', 'Smith', '123-123-1234', NULL),
 ('Eileifr', 'Berg', '123-123-1234', NULL),
 ('Yonatan', 'Abbadelli', '123-123-1234', NULL),
 ('Berto', 'Albrecktsson', '123-123-1234', 'Bert@aaa.com'),
-('Jaylin', 'Derby', '123-123-1234', NULL),--12
+('Jaylin', 'Derby', '123-123-1234', NULL),
 ('Blandine', 'Skovgaard', '123-123-1234', NULL),
-('Doretta', 'Alexanderson', '123-123-1234', NULL),--13
+('Doretta', 'Alexanderson', '123-123-1234', NULL),
 ('Martina', 'Ivers', '123-123-1234', NULL),
 ('Aarón', 'Aveskamp', '123-123-1234', 'AAAVE@aaa.com'),	  
 ('Bryson', 'Markov', '123-123-1234', NULL),
