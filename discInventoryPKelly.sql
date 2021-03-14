@@ -106,6 +106,9 @@ CREATE TABLE Rental			--Relationship/lookup
 );
 
 --PROJECT 3 
+	--Refactored CREATE TABLE commands from proj 2 to disclude 
+	--unique designations for the time being.
+	
 	--Insert row data for all tables 
 
 --Artist type
