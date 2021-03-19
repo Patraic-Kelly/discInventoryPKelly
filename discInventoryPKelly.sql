@@ -15,7 +15,21 @@
 |						     	 into all tables.
 |
 |				Connected lookups with Disc via
-|				Rental and DiscHasArtist Tables.  /
+|				Rental and DiscHasArtist Tables.
+| Project 4
+|
+|3/17/21 PK -
+|			-Added Variance to Customer Phone num as per feedback from last week
+|			-3. Created SELECT to display Individual artists
+|			-4. Created VIEW to display Individual artists   
+|
+|3/19/21 PK - Added ISNULL() condition to #3
+|			-5. Show discs in database and band names
+|			-6. Rewrite previous with NOT IN, using ViewIndividualArtists
+|			-7. Show Borrowed discs and their borrowers
+|			-8. Show number of times a disc has been borrowed
+|			-9. Show discs that have not been returned
+|												  /
 \-----------------------------------------------*/
 
 USE master;
@@ -191,11 +205,11 @@ VALUES ('Moon Pix', '9/22/1998', 12, 1, 1) -- Two words
 	  ,('Blueshift', '1/1/1999', 3, 1, 1) -- One word
 	  ,('Achievement', '3/29/2016', 13, 1, 5)
 	  ,('Pop-Up', '9/3/2007', 4, 1, 1)
-	  ,('The Serpent''s Egg', '12/24/1988', 14, 1, 2)
+	  ,('The Serpent''s Egg', '12/24/1988', 14, 4, 2)
 	  ,('Light & Magic', '9/17/2002', 4, 1, 1)
 	  ,('Imperfectly', '6/19/1992', 15, 1, 1)
 	  ,('A Farewell To Kings', '9/1/1977', 7, 1, 2)
-	  ,('Imagica Demos', '10/28/2000', 14, 1, 1)	  
+	  ,('Imagica Demos', '10/28/2000', 14, 4, 1)	  
 	  ,('In The Zone', '4/6/2006', 2, 1, 1)
 	  ,('In The Zone', '1/1/2001', 4, 1, 1)
 	  ,('Vamm', '11/1/2013', 9, 1, 1)
@@ -214,26 +228,26 @@ WHERE DiscID = 4;
 --Insert Borrower Row Data
 INSERT Borrower (fName, lName, Phone, Email)
 VALUES 
-('Sæwine', 'Hutmacher', '123-123-1234', 'Shutmacher@aaa.com'),
-('Jarl', 'Rivers', '123-123-1234', NULL),	  
-('Urist', 'McUrist', '123-123-1234', NULL),
-('Kipling', 'Poulin', '123-123-1234', NULL),
-('Caroline', 'Merckx', '123-123-1234', NULL),
-('Tadala', 'Szekeres', '123-123-1234', NULL),	
-('Cyrillus', 'Stroud', '123-123-1234', 'StroudDynamics@something.net'),
-('Lea', 'Smith', '123-123-1234', NULL),
+('Sæwine', 'Hutmacher', '555-117-0263', 'Shutmacher@aaa.com'),
+('Jarl', 'Rivers', '410-555-2277', NULL),	  
+('Urist', 'McUrist', '307-555-6985', NULL),
+('Kipling', 'Poulin', '501-555-9436', NULL),
+('Caroline', 'Merckx', '609-555-2707', NULL),
+('Tadala', 'Szekeres', '615-555-6140', NULL),	
+('Cyrillus', 'Stroud', '555-846-7839', 'StroudDynamics@something.net'),
+('Lea', 'Smith', '775-403-5551', NULL),
 ('Eileifr', 'Berg', '123-123-1234', NULL),
-('Yonatan', 'Abbadelli', '123-123-1234', NULL),
-('Berto', 'Albrecktsson', '123-123-1234', 'Bert@aaa.com'),
-('Jaylin', 'Derby', '123-123-1234', NULL),
-('Blandine', 'Skovgaard', '123-123-1234', NULL),
-('Doretta', 'Alexanderson', '123-123-1234', NULL),
-('Martina', 'Ivers', '123-123-1234', NULL),
-('Aarón', 'Aveskamp', '123-123-1234', 'AAAVE@aaa.com'),	  
-('Bryson', 'Markov', '123-123-1234', NULL),
-('Lalla', 'Macauley', '123-123-1234', NULL),
-('Ruben', 'Tarantino', '123-123-1234', NULL),
-('Pratibha', 'Beyersdorf', '123-123-1234', NULL)
+('Yonatan', 'Abbadelli', '614-555-7315', NULL),
+('Berto', 'Albrecktsson', '303-555-3938', 'Bert@aaa.com'),
+('Jaylin', 'Derby', '307-555-7887', NULL),
+('Blandine', 'Skovgaard', '208-555-8940', NULL),
+('Doretta', 'Alexanderson', '701-555-4648', NULL),
+('Martina', 'Ivers', '455-559-2550', NULL),
+('Aarón', 'Aveskamp', '225-555-8078', 'AAAVE@aaa.com'),	  
+('Bryson', 'Markov', '334-555-5062', NULL),
+('Lalla', 'Macauley', '406-555-3665', NULL),
+('Ruben', 'Tarantino', '515-555-8554', NULL),
+('Pratibha', 'Beyersdorf', '202-555-2139', NULL)
 
 -- Delete Borrower ID 13 as selected by WHERE
 DELETE Borrower
@@ -287,8 +301,88 @@ VALUES
 (7,17),
 (11,18)
 
---Select which uses a WHERE to pull unreterned Discs
+--Select which uses a WHERE to pull unreturned Discs
 SELECT BorrowerID AS BorrowerID, DiscID AS DiscID, convert(varchar, BorrowDate, 101) AS BorrowDate, ReturnDate AS ReturnDate
 FROM Rental
 WHERE ReturnDate IS NULL;
 GO
+
+-- PROJECT 4 
+
+USE discInventoryPK
+GO
+
+	-- 3. Show discs with individual artists.
+SELECT DiscName AS 'Disc  Name', CONVERT(VARCHAR, ReleaseDate, 101) AS 'Release Date', 
+ArtistName AS 'Artist First Name', ISNULL(ArtistLastName, ' ') AS 'Artist Last Name' 
+FROM Disc d
+JOIN DiscHasArtist da ON d.DiscID = da.DiscID
+JOIN Artist a ON da.ArtistID = a.ArtistID
+WHERE ArtistTypeID = 1
+ORDER BY ArtistLastName, ArtistName
+GO
+
+	-- 4. Create VIEW for individual artists
+DROP VIEW IF EXISTS ViewIndividualArtists
+GO
+CREATE VIEW ViewIndividualArtists
+AS
+SELECT ArtistID, ArtistName, ArtistLastName 
+FROM Artist
+WHERE ArtistTypeID = 1
+GO
+
+SELECT ArtistName, ISNULL(ArtistLastName, ' ') AS 'Last Name'
+FROM ViewIndividualArtists
+ORDER BY ArtistLastName, ArtistName
+GO
+
+	-- 5. Show Discs in database and any associated Groups
+SELECT DiscName AS 'Disc Name', CONVERT(VARCHAR, ReleaseDate, 101) AS 'Release Date', ArtistName AS 'Band Name'
+FROM Disc d
+JOIN DiscHasArtist da ON d.DiscID = da.DiscID
+JOIN Artist a ON da.ArtistID = a.ArtistID
+WHERE ArtistTypeID = 2
+ORDER BY ArtistName, DiscName
+GO
+
+	-- 6. Re-write the previous query using ViewIndividualArtists
+
+SELECT DiscName AS 'Disc Name', CONVERT(VARCHAR, ReleaseDate, 101) AS 'Release Date', ArtistName AS 'Band Name'
+FROM Disc d
+JOIN DiscHasArtist da ON d.DiscID = da.DiscID
+JOIN Artist a ON da.ArtistID = a.ArtistID
+WHERE a.ArtistID NOT IN 
+	(SELECT ArtistID
+	FROM ViewIndividualArtists)
+ORDER BY ArtistName, DiscName
+GO
+
+	-- 7. Show Borrowed Discs and who has them
+
+SELECT fName AS 'First', lname AS 'Last', DiscName AS 'Disc Name', CONVERT(VARCHAR, BorrowDate, 101) AS 'Borrowed Date',
+ISNULL(CONVERT(VARCHAR, ReturnDate, 101), 'Not Returned') AS 'Returned'
+FROM Borrower b
+JOIN Rental r ON b.BorrowerID = r.BorrowerID
+JOIN Disc d ON r.DiscID = d.DiscID
+ORDER BY lName, fName, BorrowDate, ReturnDate
+GO
+
+	-- 8. Show number of times a disc has been borrowed
+
+SELECT d.DiscID AS 'Disc ID', DiscName, COUNT(BorrowDate) AS 'Times Borrowed'
+FROM Disc d
+JOIN Rental r ON d.DiscID = r.DiscID
+GROUP BY d.DiscID, DiscName
+ORDER BY d.DiscID
+
+	-- 9. Show discs which have not yet been returned
+
+SELECT DiscName, CONVERT(VARCHAR, BorrowDate, 101) AS 'Borrowed Date', 
+ISNULL(CONVERT(VARCHAR, ReturnDate, 101), 'Not Returned') AS 'Returned', lName AS 'Last Name'
+FROM Disc d
+JOIN Rental r ON d.DiscID = r.DiscID
+JOIN Borrower b ON b.BorrowerID = r.BorrowerID
+WHERE ReturnDate IS NULL
+ORDER BY BorrowDate, lName, DiscName
+;
