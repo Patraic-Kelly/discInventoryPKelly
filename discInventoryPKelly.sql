@@ -2,10 +2,12 @@
 |Author:Patraic Kelly       					  \
 |Creation Date:3/3/21		    				  
 |Modified Date:3/5/21							  
-|LOG:											  
+|LOG:
+|
 |3/3/21 PK - Wrote database drop&creation
 |		wrote table creators
 |		 for Borrower, Rental, Artist, ArtistType.
+|
 |3/5/21 PK- Added login and user creation
 |		 Wrote, and added columns for:
 |		 Genre, MediaType, DiscStatus, Disc,
@@ -18,17 +20,22 @@
 |				Rental and DiscHasArtist Tables.
 | Project 4
 |
-|3/17/21 PK -
-|			-Added Variance to Customer Phone num as per feedback from last week
+|3/17/21 PK -Added Variance to Customer Phone num as per feedback from last week
 |			-3. Created SELECT to display Individual artists
 |			-4. Created VIEW to display Individual artists   
 |
-|3/19/21 PK - Added ISNULL() condition to #3
+|3/19/21 PK -Added ISNULL() condition to #3
 |			-5. Show discs in database and band names
 |			-6. Rewrite previous with NOT IN, using ViewIndividualArtists
 |			-7. Show Borrowed discs and their borrowers
 |			-8. Show number of times a disc has been borrowed
 |			-9. Show discs that have not been returned
+|
+| Project 5
+|
+|3/31/21 PK -Added Insert, Update, and Delete Procedures for Disc table
+|
+|4/2/21  PK -Added Insert, Update, and Delete Procedures for Artist and Borrower tables
 |												  /
 \-----------------------------------------------*/
 
@@ -202,7 +209,7 @@ INSERT Disc (DiscName, ReleaseDate, GenreID, StatusID, MediaID)
 VALUES ('Moon Pix', '9/22/1998', 12, 1, 1) -- Two words
 	  ,('When It Falls', '5/1/2004', 13, 1, 2) -- More than two words
 	  ,('You Are Free', '2/18/2003', 12, 1, 1)
-	  ,('Blueshift', '1/1/1999', 3, 1, 1) -- One word
+	  ,('Redshift', '1/1/1999', 3, 1, 1) -- One word
 	  ,('Achievement', '3/29/2016', 13, 1, 5)
 	  ,('Pop-Up', '9/3/2007', 4, 1, 1)
 	  ,('The Serpent''s Egg', '12/24/1988', 14, 4, 2)
@@ -220,10 +227,10 @@ VALUES ('Moon Pix', '9/22/1998', 12, 1, 1) -- Two words
 	  ,('XTREME NOW', '3/4/2016', 4, 1, 2)
 	  ,('Pretty Hate Machine', '10/20/1989', 4, 1, 1)
 
---Update 1 row using WHERE
+/*Update 1 row using WHERE
 UPDATE Disc
 SET DiscName = 'Redshift'
-WHERE DiscID = 4;
+WHERE DiscID = 4;*/
 
 --Insert Borrower Row Data
 INSERT Borrower (fName, lName, Phone, Email)
@@ -249,9 +256,9 @@ VALUES
 ('Ruben', 'Tarantino', '515-555-8554', NULL),
 ('Pratibha', 'Beyersdorf', '202-555-2139', NULL)
 
--- Delete Borrower ID 13 as selected by WHERE
+/* Delete Borrower ID 13 as selected by WHERE
 DELETE Borrower
-WHERE BorrowerID = 13;
+WHERE BorrowerID = 13;*/
 
 --Insert data rows into Rental to link Borrower with Disc
 INSERT Rental (DiscID, BorrowerID, BorrowDate, DueDate, ReturnDate)
@@ -386,3 +393,310 @@ JOIN Borrower b ON b.BorrowerID = r.BorrowerID
 WHERE ReturnDate IS NULL
 ORDER BY BorrowDate, lName, DiscName
 ;
+
+--		Project 5
+USE discInventoryPK;
+/* 2. 	Create Insert, Update, and Delete stored procedures for the Disc table. 
+		Update procedure accepts input parameters for all columns. 
+		Insert accepts all columns as input parameters except for identity fields. 
+		Delete accepts a primary key value for delete. */
+
+-- Insert Disc
+DROP PROC IF EXISTS sp_ins_disc;
+GO
+
+CREATE PROC sp_ins_disc
+		@DiscName NVARCHAR(60), @ReleaseDate DATE, @GenreID INT, @StatusID INT, @MediaID INT
+AS
+BEGIN TRY
+	INSERT Disc (DiscName, ReleaseDate, GenreID, StatusID, MediaID)
+	VALUES (@DiscName, @ReleaseDate, @GenreID, @StatusID, @MediaID)
+END TRY
+
+BEGIN CATCH
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_ins_disc to discAdmin
+GO
+
+EXECUTE sp_ins_disc 'Nothing nd Nowhere', '4/5/98', 1, 1, 1
+GO
+
+SELECT *
+FROM Disc
+
+EXECUTE sp_ins_disc NULL, '4/5/98', 1, 1, 1
+GO
+
+-- Update Disc
+DROP PROC IF EXISTS sp_upd_disc;
+GO
+
+CREATE PROC sp_upd_disc
+		@DiscID INT, @DiscName NVARCHAR(60), @ReleaseDate DATE, 
+		@GenreID INT, @StatusID INT, @MediaID INT
+
+AS
+
+BEGIN TRY
+UPDATE [dbo].[Disc]
+   SET [DiscName] = @DiscName
+      ,[ReleaseDate] = @ReleaseDate
+      ,[StatusID] = @StatusID
+      ,[MediaID] = @MediaID
+      ,[GenreID] = @GenreID
+ WHERE DiscID = @DiscID
+END TRY
+
+BEGIN CATCH 
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_upd_disc to discAdmin;
+GO
+
+EXECUTE sp_upd_disc 21, 'Nothing and Nowhere', '4/5/98', 1, 1, 1
+GO
+
+SELECT *
+FROM Disc
+
+EXECUTE sp_upd_disc 21, NULL, '4/5/98', 1, 1, 1
+GO
+
+
+-- Delete from Disc
+DROP PROC IF EXISTS sp_del_disc
+GO
+CREATE PROC sp_del_disc @DiscID INT
+AS
+BEGIN TRY
+
+DELETE FROM Disc
+	WHERE DiscID = 21
+END TRY
+BEGIN CATCH
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_del_disc to discAdmin;
+GO
+
+EXECUTE sp_del_disc 21
+GO
+
+SELECT *
+FROM Disc
+
+EXECUTE sp_del_disc 1
+GO
+
+
+/* 3. 	Create Insert, Update, and Delete stored procedures for the [Artist] table. 
+		Update procedure accepts input parameters for all columns. 
+		Insert accepts all columns as input parameters except for identity fields. 
+		Delete accepts a primary key value for delete.*/
+
+-- Insert Artist
+DROP PROC IF EXISTS sp_ins_artist;
+GO
+
+CREATE PROC sp_ins_artist
+		@ArtistName NVARCHAR(60), @ArtistLastName NVARCHAR(60), 
+		@ArtistTypeID INT
+AS
+BEGIN TRY
+	INSERT Artist (ArtistName, ArtistLastName, ArtistTypeID)
+	VALUES (@ArtistName, @ArtistLastName, @ArtistTypeID)
+END TRY
+
+BEGIN CATCH
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_ins_artist to discAdmin
+GO
+
+EXECUTE sp_ins_artist 'Regina', 'Spector', 1
+GO
+
+SELECT *
+FROM Artist
+
+EXECUTE sp_ins_artist NULL, 'Spector', 1
+GO
+
+-- Update Artist
+DROP PROC IF EXISTS sp_upd_artist;
+GO
+
+CREATE PROC sp_upd_artist
+		@ArtistID INT, @ArtistName NVARCHAR(60), @ArtistLastName NVARCHAR(60), 
+		@ArtistTypeID INT
+
+AS
+
+BEGIN TRY
+UPDATE [dbo].[Artist]
+   SET [ArtistName] = @ArtistName
+      ,[ArtistLastName] = @ArtistLastName
+      ,[ArtistTypeID] = @ArtistTypeID
+ WHERE ArtistID = @ArtistID
+END TRY
+
+BEGIN CATCH 
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_ins_artist to discAdmin
+GO
+
+EXECUTE sp_upd_artist 21, 'Regina', 'Spektor', 1
+GO
+
+SELECT *
+FROM Artist
+
+EXECUTE sp_upd_artist 21, NULL, 'Spektor', 1
+GO
+
+
+-- Delete Artist
+DROP PROC IF EXISTS sp_del_artist
+GO
+CREATE PROC sp_del_artist @ArtistID INT
+AS
+
+BEGIN TRY
+DELETE FROM Artist
+	WHERE ArtistID = 21
+END TRY
+
+BEGIN CATCH
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_del_artist to discAdmin;
+GO
+
+EXECUTE sp_del_artist 21
+GO
+
+SELECT *
+FROM Artist
+
+EXECUTE sp_del_artist 1
+GO
+
+/* 4. 	Create Insert, Update, and Delete stored procedures for the [Borrower] table. 
+		Update procedure accepts input parameters for all columns. 
+		Insert accepts all columns as input parameters except for identity fields. 
+		Delete accepts a primary key value for delete.*/
+
+-- Insert a Borrower
+DROP PROC IF EXISTS sp_ins_borrower;
+GO
+
+CREATE PROC sp_ins_borrower
+		@fName NVARCHAR(60), @lName NVARCHAR(60), @Phone VARCHAR(15), @Email NVARCHAR(60)
+AS
+BEGIN TRY
+	INSERT Borrower (fName, lName, Phone, Email)
+	VALUES (@fName, @lName, @Phone, @Email)
+END TRY
+
+BEGIN CATCH
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_ins_borrower to discAdmin
+GO
+
+EXECUTE sp_ins_borrower 'Harry', 'Jerry', '814-917-8249', NULL
+GO
+
+SELECT *
+FROM Borrower
+
+EXECUTE sp_ins_borrower NULL, 'Jerry', '814-917-8249', NULL
+GO
+
+-- Update [Borrower]
+DROP PROC IF EXISTS sp_upd_borrower;
+GO
+
+CREATE PROC sp_upd_borrower
+		@BorrowerID INT, @fName NVARCHAR(60), @lName NVARCHAR(60), 
+		@Phone VARCHAR(15), @Email NVARCHAR(60)
+AS
+
+BEGIN TRY
+UPDATE [dbo].[Borrower]
+   SET [fName] = @fName
+      ,[lName] = @lName
+      ,[Phone] = @Phone
+      ,[Email] = @Email
+ WHERE BorrowerID = @BorrowerID
+END TRY
+
+BEGIN CATCH 
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_upd_borrower to discAdmin;
+GO
+
+EXECUTE sp_upd_borrower 21, 'Harry', 'Larry', '814-917-8249', NULL
+GO
+
+SELECT *
+FROM Borrower
+
+EXECUTE sp_upd_borrower 21, NULL, 'Jerry', '814-917-8249', NULL
+GO
+
+
+-- Delete from [Borrower]
+DROP PROC IF EXISTS sp_del_borrower
+GO
+CREATE PROC sp_del_borrower @BorrowerID INT
+AS
+BEGIN TRY
+
+DELETE FROM Borrower
+	WHERE BorrowerID = 21
+END TRY
+BEGIN CATCH
+	PRINT 'An error has occurred.';
+	PRINT 'Message: ' + CONVERT(VARCHAR(200), ERROR_MESSAGE());
+END CATCH
+GO
+
+GRANT EXECUTE ON sp_del_borrower to discAdmin;
+GO
+
+EXECUTE sp_del_borrower 21
+GO
+
+SELECT *
+FROM Borrower
+
+EXECUTE sp_del_borrower 1
+GO
