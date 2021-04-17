@@ -1,0 +1,28 @@
+﻿@model List<Disc>
+@{
+    ViewData["Title"] = "Disc Page";
+}
+
+<div>
+    <h1>Discs</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr><th>Disc ID</th><th>Disc Title</th><th>Release Date</th><th>Genre</th><th>Media</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var disc in Model)
+            {
+            <tr>
+                <td>@disc.DiscId</td>
+                <td>@disc.DiscName</td>
+                <td>@disc.ReleaseDate</td>
+                <td>@disc.GenreId</td>
+                <td>@disc.MediaId</td>
+                <td>@disc.StatusId</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
+</div>

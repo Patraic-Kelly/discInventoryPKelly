@@ -1,0 +1,24 @@
+﻿@model List<DiscInventory.Models.Artist>
+@{
+    ViewData["Title"] = "Artist Page";
+}
+
+
+    <h1>Artists</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr><th>Artist ID</th><th>Artist Name</th><th>Artist Last Name</th><th>Artist Type ID</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var artist in Model)
+            {
+                <tr>
+                    <td>@artist.ArtistId</td>
+                    <td>@artist.ArtistName</td>
+                    <td>@artist.ArtistLastName</td>
+                    <td>@artist.ArtistTypeId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
