@@ -1,28 +1,31 @@
-﻿@model List<Disc>
+﻿@model List<DiscInventory.Models.Disc>
 @{
     ViewData["Title"] = "Disc Page";
 }
 
-<div>
-    <h1>Discs</h1>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr><th>Disc ID</th><th>Disc Title</th><th>Release Date</th><th>Genre</th><th>Media</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-            @foreach (var disc in Model)
-            {
-            <tr>
-                <td>@disc.DiscId</td>
-                <td>@disc.DiscName</td>
-                <td>@disc.ReleaseDate</td>
-                <td>@disc.GenreId</td>
-                <td>@disc.MediaId</td>
-                <td>@disc.StatusId</td>
-            </tr>
-            }
-        </tbody>
-    </table>
-    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 
-</div>
+<h1>Discs</h1>
+<a asp-controller="Disc" asp-action="Add">Add New Disc</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr><th>Disc ID</th><th>Disc Title</th><th>Release Date</th><th>Genre</th><th>Media</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var disc in Model)
+        {
+        <tr>
+            <td>@disc.DiscId</td>
+            <td>@disc.DiscName</td>
+            <td>@disc.ReleaseDate</td>
+            <td>@disc.GenreId</td>
+            <td>@disc.MediaId</td>
+            <td>@disc.StatusId</td>
+            <td>
+                <a asp-controller="Disc" asp-action="Edit" asp-route-id="@disc.DiscId">Edit</a>
+                <a asp-controller="Disc" asp-action="Delete" asp-route-id="@disc.DiscId">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>

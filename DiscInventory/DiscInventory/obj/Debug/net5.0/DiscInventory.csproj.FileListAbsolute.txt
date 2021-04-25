@@ -86,3 +86,9 @@ C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInv
 C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Artist\Index.cshtml.g.cs
 C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Borrower\Index.cshtml.g.cs
 C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Disc\Index.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Artist\Edit.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Artist\Delete.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Disc\Edit.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Disc\Delete.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Borrower\Delete.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Debug\net5.0\Razor\Views\Borrower\Edit.cshtml.g.cs

@@ -1,0 +1,61 @@
+﻿@model Disc
+@{
+    string title = ViewBag.Action + " Disc";
+    ViewBag.Title = title;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="DiscName">Name</label>
+        <input asp-for="DiscName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ReleaseDate">Release Date</label>
+        <input asp-for="ReleaseDate" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="GenreId">Genre</label>
+        <select asp-for="GenreId" class="form-control">
+            <option value="">Select Genre</option>
+            @foreach (Genre g in ViewBag.Genres)
+            {
+                <option value="@g.GenreId">@g.GenreDesc</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StatusId">Status</label>
+        <select asp-for="StatusId" class="form-control">
+            <option value="">Select Status</option>
+            @foreach (DiscStatus s in ViewBag.DiscStatuses)
+            {
+                <option value="@s.StatusId">@s.StatusDesc</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+            <label asp-for="MediaId">Media Type</label>
+            <select asp-for="MediaId" class="form-control">
+                <option value="">Select a form of Media</option>
+                @foreach (MediaType m in ViewBag.MediaTypes)
+                {
+                    <option value="@m.MediaId">@m.MediaDesc</option>
+                }
+            </select>
+        </div>
+
+    <input type="hidden" asp-for="DiscId" />
+
+    <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+
+    <a asp-controller="Disc" asp-action="Index"
+       class="btn btn-primary">Cancel</a>
+</form>
