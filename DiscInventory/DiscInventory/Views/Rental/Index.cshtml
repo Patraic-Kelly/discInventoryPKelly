@@ -1,0 +1,36 @@
+﻿@model List<DiscInventory.Models.Rental>
+@{
+    ViewData["Title"] = "Rental Checkout Page";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<a asp-controller="Rental" asp-action="Add">Add a Rental</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Disc Name</th>
+            <th>Borrower Last Name</th>
+            <th>Borrower First Name</th>
+            <th>Borrowed Date</th>
+            <th>Due Date</th>
+            <th>Returned Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rental in Model)
+        {
+            <tr>
+                <td>@rental.Disc.DiscName</td>
+                <td>@rental.Borrower.LName</td>
+                <td>@rental.Borrower.FName</td>
+                <td>@rental.BorrowDate.ToShortDateString()</td>
+                <td>@rental.DueDate.ToShortDateString()</td>
+                <td>@rental.ReturnDate?.ToShortDateString()</td>
+                <td>
+                    <a asp-controller="Rental" asp-action="Edit" asp-route-id="@rental.RentalId">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

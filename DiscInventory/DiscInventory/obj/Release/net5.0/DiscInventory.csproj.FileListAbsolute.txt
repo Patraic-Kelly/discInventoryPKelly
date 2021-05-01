@@ -86,3 +86,11 @@ C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInv
 C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\ref\DiscInventory.dll
 C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\DiscInventory.pdb
 C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\DiscInventory.genruntimeconfig.cache
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\Razor\Views\Artist\Delete.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\Razor\Views\Artist\Edit.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\Razor\Views\Borrower\Delete.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\Razor\Views\Borrower\Edit.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\Razor\Views\Disc\Delete.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\Razor\Views\Disc\Edit.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\Razor\Views\Rental\Edit.cshtml.g.cs
+C:\Users\pkelly\Documents\SSMS Queries\discInventoryPKelly\DiscInventory\DiscInventory\obj\Release\net5.0\Razor\Views\Rental\Index.cshtml.g.cs

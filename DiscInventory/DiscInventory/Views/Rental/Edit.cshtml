@@ -1,0 +1,56 @@
+﻿@model Rental
+@{
+    string title = ViewBag.Action + " Checkout";
+    ViewBag.Title = title;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="DiscId">Genre</label>
+        <select asp-for="DiscId" class="form-control">
+            <option value="">Select a Disc</option>
+            @foreach (Disc d in ViewBag.Discs)
+            {
+                <option value="@d.DiscId">@d.DiscName</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BorrowerId">Borrower</label>
+        <select asp-for="BorrowerId" class="form-control">
+            <option value="">Select Borrower</option>
+            @foreach (Borrower b in ViewBag.Borrowers)
+            {
+                <option value="@b.BorrowerId">@b.LName, @b.FName</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BorrowDate">Date of Rental</label>
+        <input asp-for="BorrowDate" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DueDate">Due Date</label>
+        <input asp-for="DueDate" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ReturnDate">Return Date</label>
+        <input asp-for="ReturnDate" class="form-control" />
+    </div>
+
+
+    <input type="hidden" asp-for="RentalId" />
+
+    <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+
+    <a asp-controller="Rental" asp-action="Index"
+       class="btn btn-primary">Cancel</a>
+</form>
