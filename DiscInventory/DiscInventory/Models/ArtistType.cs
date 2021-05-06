@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -11,7 +12,6 @@ namespace DiscInventory.Models
         {
             Artists = new HashSet<Artist>();
         }
-
         public int ArtistTypeId { get; set; }
         public string ArtistTypeDesc { get; set; }
 

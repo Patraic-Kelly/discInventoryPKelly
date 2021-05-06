@@ -16,10 +16,10 @@
         <tr>
             <td>@disc.DiscId</td>
             <td>@disc.DiscName</td>
-            <td>@disc.ReleaseDate</td>
-            <td>@disc.GenreId</td>
-            <td>@disc.MediaId</td>
-            <td>@disc.StatusId</td>
+            <td>@disc.ReleaseDate.ToShortDateString()</td>
+            <td>@disc.Genre.GenreDesc</td>
+            <td>@disc.Media.MediaDesc</td>
+            <td>@disc.Status.StatusDesc</td>
             <td>
                 <a asp-controller="Disc" asp-action="Edit" asp-route-id="@disc.DiscId">Edit</a>
                 <a asp-controller="Disc" asp-action="Delete" asp-route-id="@disc.DiscId">Delete</a>

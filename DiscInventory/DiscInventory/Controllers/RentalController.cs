@@ -29,7 +29,7 @@ namespace DiscInventory.Controllers
             ViewBag.Discs = context.Discs.OrderBy(d => d.DiscName).ToList();
             ViewBag.Borrowers = context.Borrowers.OrderBy(l => l.LName).ToList();
             Rental newrental = new Rental();
-            newrental.BorrowDate = DateTime.Now;
+            newrental.BorrowDate = DateTime.Today;
             newrental.DueDate = newrental.BorrowDate.AddDays(30);
             return View("Edit", newrental);
         }

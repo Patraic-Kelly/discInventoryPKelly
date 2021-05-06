@@ -45,11 +45,28 @@ namespace DiscInventory.Controllers
             {
                 if (borrower.BorrowerId == 0)
                 {
-                    context.Borrowers.Add(borrower);
+                    //context.Borrowers.Add(borrower);
+                    context.Database.ExecuteSqlRaw("execute sp_ins_borrower @p0, @p1, @p2, @p3",
+                        parameters: new[] 
+                        { 
+                            borrower.FName,
+                            borrower.LName,
+                            borrower.Phone.ToString(),
+                            borrower.Email
+                        });
                 }
                 else
                 {
-                    context.Borrowers.Update(borrower);
+                    //context.Borrowers.Update(borrower);
+                    context.Database.ExecuteSqlRaw("execute sp_upd_borrower @p0, @p1, @p2, @p3, @p4",
+                        parameters: new[]
+                        {
+                            borrower.BorrowerId.ToString(),
+                            borrower.FName,
+                            borrower.LName,
+                            borrower.Phone.ToString(),
+                            borrower.Email.ToString()
+                        });
                 }
                 context.SaveChanges();
                 return RedirectToAction("Index", "Borrower");
@@ -72,6 +89,11 @@ namespace DiscInventory.Controllers
         {
             context.Borrowers.Remove(borrower);
             context.SaveChanges();
+            context.Database.ExecuteSqlRaw("execute sp_del_borrower @p0",
+                parameters: new[]
+                {
+                    borrower.BorrowerId.ToString(),
+                });
             return RedirectToAction("Index", "Borrower");
         }
     }

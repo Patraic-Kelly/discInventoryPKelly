@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using DiscInventory.Models;
 
+
+
 namespace DiscInventory.Controllers
 {
     public class DiscController : Controller
@@ -18,7 +20,10 @@ namespace DiscInventory.Controllers
         }
         public IActionResult Index()
         {
-            var discs = context.Discs.OrderBy(d => d.DiscName).ThenBy(s => s.StatusId).ToList();
+            var discs = context.Discs.OrderBy(d => d.DiscName).
+            Include(g => g.Genre).
+            Include(s => s.Status).
+            Include(m => m.Media).ToList();
             return View(discs);
         }
         [HttpGet]
@@ -50,11 +55,24 @@ namespace DiscInventory.Controllers
             {
                 if (disc.DiscId == 0)
                 {
-                    context.Discs.Add(disc);
+                    //context.Discs.Add(disc);
+                    context.Database.ExecuteSqlRaw("execute sp_ins_disc @p0, @p1, @p2, @p3, @p4", 
+                        parameters: 
+                        new[] 
+                        {
+                            disc.DiscName, 
+                            disc.ReleaseDate.ToString(), 
+                            disc.GenreId.ToString(), 
+                            disc.StatusId.ToString(), 
+                            disc.MediaId.ToString() 
+                        }
+                        );
                 }
                 else
                 {
-                    context.Discs.Update(disc);
+                    //context.Discs.Update(disc);
+                    context.Database.ExecuteSqlRaw("execute sp_upd_disc @p0, @p1, @p2, @p3, @p4, @p5",
+                        parameters: new[] {disc.DiscId.ToString(), disc.DiscName, disc.ReleaseDate.ToString(), disc.GenreId.ToString(), disc.StatusId.ToString(), disc.MediaId.ToString() });
                 }
                 context.SaveChanges();
                 return RedirectToAction("Index", "Disc");
@@ -78,8 +96,10 @@ namespace DiscInventory.Controllers
         [HttpPost]
         public IActionResult Delete(Disc disc)
         {
-            context.Discs.Remove(disc);
+            //context.Discs.Remove(disc);
             context.SaveChanges();
+            context.Database.ExecuteSqlRaw("execute sp_del_disc @p0",
+               parameters: new[] {disc.DiscId.ToString()});
             return RedirectToAction("Index", "Disc");
         }
     }

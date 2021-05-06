@@ -7,10 +7,10 @@
 <h2>@ViewBag.Title</h2>
 
 <form asp-action="Edit" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="All"></div>
 
     <div class="form-group">
-        <label asp-for="DiscId">Genre</label>
+        <label asp-for="DiscId">Disc</label>
         <select asp-for="DiscId" class="form-control">
             <option value="">Select a Disc</option>
             @foreach (Disc d in ViewBag.Discs)
@@ -18,6 +18,7 @@
                 <option value="@d.DiscId">@d.DiscName</option>
             }
         </select>
+
     </div>
 
     <div class="form-group">
@@ -29,6 +30,7 @@
                 <option value="@b.BorrowerId">@b.LName, @b.FName</option>
             }
         </select>
+
     </div>
 
     <div class="form-group">

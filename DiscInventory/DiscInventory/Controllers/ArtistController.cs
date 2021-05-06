@@ -18,7 +18,8 @@ namespace DiscInventory.Controllers
         }
         public IActionResult Index()
         {
-            var artists = context.Artists.OrderBy(a => a.ArtistLastName).ThenBy(a => a.ArtistName).ToList();
+            var artists = context.Artists.OrderBy(a => a.ArtistLastName).
+            Include(t => t.ArtistType).ToList();
             return View(artists);
         }
 
@@ -40,26 +41,40 @@ namespace DiscInventory.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Artist rtist)
+        public IActionResult Edit(Artist artist)
         {
             if (ModelState.IsValid)
             {
-                if (rtist.ArtistId == 0)
+                if (artist.ArtistId == 0)
                 {
-                    context.Artists.Add(rtist);
+                    //context.Artists.Add(artist);
+                    context.Database.ExecuteSqlRaw("execute sp_ins_artist @p0, @p1, @p2",
+                        parameters: new[]
+                        {
+                            artist.ArtistName,
+                            artist.ArtistLastName,
+                            artist.ArtistTypeId.ToString()
+                        });
                 }
                 else
                 {
-                    context.Artists.Update(rtist);
+                    //context.Artists.Update(artist);
+                    context.Database.ExecuteSqlRaw("execute sp_upd_artist @p0, @p1, @p2, @p3",
+                        parameters: new[] { 
+                            artist.ArtistId.ToString(), 
+                            artist.ArtistName, 
+                            artist.ArtistLastName, 
+                            artist.ArtistTypeId.ToString() 
+                        });
                 }
                 context.SaveChanges();
                 return RedirectToAction("Index", "Artist");
             }
             else
             {
-                ViewBag.Action = (rtist.ArtistId == 0);
+                ViewBag.Action = (artist.ArtistId == 0) ? "Add" : "Edit";
                 ViewBag.ArtistTypes = context.ArtistTypes.OrderBy(t => t.ArtistTypeDesc).ToList();
-                return View(rtist);
+                return View(artist);
             }
         }
         [HttpGet]
@@ -73,8 +88,10 @@ namespace DiscInventory.Controllers
         [HttpPost]
         public IActionResult Delete(Artist artist)
         {
-            context.Artists.Remove(artist);
+            //context.Artists.Remove(artist);
             context.SaveChanges();
+            context.Database.ExecuteSqlRaw("execute sp_del_artist @p0",
+            parameters: new[] { artist.ArtistId.ToString() });
             return RedirectToAction("Index", "Artist");
         }
     }

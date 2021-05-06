@@ -18,13 +18,14 @@ namespace DiscInventory.Models
         [Required(ErrorMessage = "Please enter a name.")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Name must be 2 characters or more.")]
         public string DiscName { get; set; }
+        [Required(ErrorMessage ="Please enter a date.")]
         public DateTime ReleaseDate { get; set; }
         [Required(ErrorMessage = "Please select a status.")]
-        public int StatusId { get; set; }
-        [Required]
-        public int MediaId { get; set; }
-        [Required]
-        public int GenreId { get; set; }
+        public int? StatusId { get; set; }
+        [Required(ErrorMessage = "Please select a Media Type.")]
+        public int? MediaId { get; set; }
+        [Required(ErrorMessage = "Please select a Genre.")]
+        public int? GenreId { get; set; }
 
         public virtual Genre Genre { get; set; }
         public virtual MediaType Media { get; set; }
